@@ -1,14 +1,33 @@
-const me = require('./person.json');
+const express = require('express');
+const app = express();
 
-const axios = require('axios');
+const bodyParser = require('body-parser');
 
-function bloop() {
-    axios.get("http:localhost:8081/duck/getAll")
-        .then(res => console.log(res.data))
-        .catch(err => console.error(err));
+app.use(bodyParser.json());
 
-    console.log('behold ', me);
-}
+app.get('/', function (request, response) {
+    response.status(418).send('Hello, World!');
+});
 
-bloop();
+app.post('/create', function (req, res) {
+    const body = req.body;
+    console.log(body);
+    res.status(201).send(body.message);
+});
 
+app.put('/update', (req, res) => {
+    const params = req.query;
+    console.log(params);
+    res.status(202).send(params);
+})
+
+app.delete('/remove/:bloop', function (req, res) {
+    const params = req.params;
+    console.log(params);
+    res.status(200).send(params.bloop);
+})
+
+
+const server = app.listen(4494, function () {
+    console.log(`Server started successfully on port ${server.address().port}`)
+});
