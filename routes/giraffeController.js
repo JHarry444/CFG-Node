@@ -8,40 +8,38 @@ router.post('/create', (req, response, next) => {
     if (error) {
       return next(error);
     }
-    response.status(201).send(result);
+    return response.status(201).send(result);
   });
 });
 
 router.get('/getAll', (req, res, next) => {
   Giraffe.find((err, giraffes) => {
     if (err) return next(err);
-    res.send(giraffes);
+    return res.send(giraffes);
   });
 });
 
 router.get('/get', (req, res, next) => {
   Giraffe.findById(req.query.id, (err, giraffes) => {
     if (err) return next(err);
-    res.send(giraffes);
+    return res.send(giraffes);
   });
 });
 
 router.put('/update/:bloop', (req, res, next) => {
   Giraffe.findByIdAndUpdate(req.params.bloop, req.body, (err, giraffe) => {
     if (err) return next(err);
-    res.send(giraffe);
+    return res.send(giraffe);
   });
 });
 
 router.delete('/remove/:id', (req, res, next) => {
   Giraffe.findByIdAndRemove(req.params.id, (err, giraffe) => {
     if (err) return next(err);
-    res.status(204).send(giraffe);
+    return res.status(204).send(giraffe);
   });
 });
 
-router.use((err, req, res, next) => {
-  res.status(500).send(err);
-});
+router.use((err, req, res, next) => res.status(500).send(err));
 
 module.exports = router;
